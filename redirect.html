@@ -1,35 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-  <meta charset="utf-8">
-  <title>Deep Link Redirect Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 2rem; }
-    pre { background: #f4f4f4; padding: 1rem; border-radius: 8px; }
-    .status { color: #0a84ff; font-weight: 600; }
-  </style>
-  <script>
-    window.onload = function () {
-      const params = new URLSearchParams(window.location.search);
-      const deepLinkBase = params.get('deeplink') || 'deeplinkdemo://callback';
-      const webTarget = params.get('web') || encodeURIComponent('https://www.example.com');
-      const deepLink = `${deepLinkBase}?web=${webTarget}`;
+  <meta charset="UTF-8">
+  <title>Wishew Redirect Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      document.getElementById('status').innerText = 'Reindirizzamento in corso verso ' + deepLink;
-      setTimeout(function () {
-        window.location.href = deepLink;
-      }, 1500);
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    code {
+      background: #eee;
+      padding: 3px 5px;
+      border-radius: 4px;
+    }
+  </style>
+
+  <script>
+    function isInAppWebView() {
+      const ua = navigator.userAgent.toLowerCase();
+
+      // rileva Instagram, FB, TikTok, Twitter, LinkedIn, ecc.
+      if (ua.includes("instagram") ||
+          ua.includes("fbav") || ua.includes("facebook") ||
+          ua.includes("tiktok") ||
+          ua.includes("twitter") ||
+          ua.includes("linkedin")) {
+        return true;
+      }
+
+      // rilevazione generica di webview iOS/Android
+      const isIOSWebView = (ua.includes("iphone") || ua.includes("ipad")) && !ua.includes("safari");
+      const isAndroidWebView = ua.includes("wv") || (ua.includes("version/") && ua.includes("chrome"));
+
+      return isIOSWebView || isAndroidWebView;
+    }
+
+    function attemptRedirect() {
+      const target = "x-safari-https://share.wishew.com/wish/12262";
+
+      console.log("User-Agent:", navigator.userAgent); // ✅ aggiunto log
+
+      if (isInAppWebView()) {
+        console.log("✅ WebView rilevata → redirecting a Safari…");
+        window.location = target;
+      } else {
+        console.log("❌ Non sembra una WebView. Nessun redirect automatico.");
+      }
+    }
+
+    window.onload = function () {
+      document.getElementById("ua").innerText = navigator.userAgent;
+      attemptRedirect();
     };
   </script>
 </head>
 <body>
-  <h1>Redirect verso l\'app</h1>
-  <p id="status" class="status">Preparazione al redirect…</p>
-  <p>Parametri supportati:</p>
-  <pre>
-  ?deeplink=deeplinkdemo://callback
-  &web=https%3A%2F%2Fwww.example.com
-  </pre>
+  <h1>Test Wishew Redirect</h1>
+
+  <p>Se sei dentro Instagram o altra WebView iOS, dovresti essere reindirizzato in Safari entro pochi secondi.</p>
+
+  <h3>User Agent rilevato:</h3>
+  <pre><code id="ua"></code></pre>
+
+  <h3>Link manuale (fallback)</h3>
+  <p><a href="x-safari-https://share.wishew.com/wish/12262">Apri via x-safari-https</a></p>
 </body>
 </html>
