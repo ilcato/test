@@ -2,69 +2,21 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Wishew Redirect Test</title>
+  <title>Redirecting…</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-    }
-    code {
-      background: #eee;
-      padding: 3px 5px;
-      border-radius: 4px;
-    }
-  </style>
-
   <script>
-    function isInAppWebView() {
-      const ua = navigator.userAgent.toLowerCase();
+    const target = "https://share.wishew.com/wish/12262";
 
-      // rileva Instagram, FB, TikTok, Twitter, LinkedIn, ecc.
-      if (ua.includes("instagram") ||
-          ua.includes("fbav") || ua.includes("facebook") ||
-          ua.includes("tiktok") ||
-          ua.includes("twitter") ||
-          ua.includes("linkedin")) {
-        return true;
-      }
+    console.log("Redirecting to:", target);
+    console.log("User-Agent:", navigator.userAgent);
 
-      // rilevazione generica di webview iOS/Android
-      const isIOSWebView = (ua.includes("iphone") || ua.includes("ipad")) && !ua.includes("safari");
-      const isAndroidWebView = ua.includes("wv") || (ua.includes("version/") && ua.includes("chrome"));
-
-      return isIOSWebView || isAndroidWebView;
-    }
-
-    function attemptRedirect() {
-      const target = "x-safari-https://share.wishew.com/wish/12262";
-
-      console.log("User-Agent:", navigator.userAgent); // ✅ aggiunto log
-
-      if (isInAppWebView()) {
-        console.log("✅ WebView rilevata → redirecting a Safari…");
-        window.location = target;
-      } else {
-        console.log("❌ Non sembra una WebView. Nessun redirect automatico.");
-      }
-    }
-
-    window.onload = function () {
-      document.getElementById("ua").innerText = navigator.userAgent;
-      attemptRedirect();
-    };
+    // Esegue redirect immediato
+    window.location.replace(target);
   </script>
 </head>
 <body>
-  <h1>Test Wishew Redirect</h1>
-
-  <p>Se sei dentro Instagram o altra WebView iOS, dovresti essere reindirizzato in Safari entro pochi secondi.</p>
-
-  <h3>User Agent rilevato:</h3>
-  <pre><code id="ua"></code></pre>
-
-  <h3>Link manuale (fallback)</h3>
-  <p><a href="x-safari-https://share.wishew.com/wish/12262">Apri via x-safari-https</a></p>
+  <p>Redirecting to Wishew…</p>
+  <p>If you are not redirected, <a href="https://share.wishew.com/wish/12262">click here</a>.</p>
 </body>
 </html>
